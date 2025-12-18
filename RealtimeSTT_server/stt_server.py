@@ -904,7 +904,10 @@ async def shutdown_procedure():
 
 def main():
     try:
-        asyncio.run(main_async())
+        # asyncio.run(main_async()) # Запускалось с ошибкой, укажем явно
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        loop.run_until_complete(main_async())
     except KeyboardInterrupt:
         # Capture any final KeyboardInterrupt to prevent it from showing up in logs
         print(f"{bcolors.WARNING}Server interrupted by user.{bcolors.ENDC}")
