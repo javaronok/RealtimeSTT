@@ -30,4 +30,4 @@ COPY RealtimeSTT_server /app/RealtimeSTT_server
 EXPOSE 8011
 EXPOSE 8012
 
-CMD ["python3", "RealtimeSTT_server/stt_server.py","-m ${WHISPER_MODEL} -r ${WHISPER_MODEL} -l ru --device ${DEVICE}"]
+CMD python3 RealtimeSTT_server/stt_server.py -m ${WHISPER_MODEL} -r ${WHISPER_MODEL} -l ru --device ${DEVICE}
