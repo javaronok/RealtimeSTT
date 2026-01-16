@@ -1,0 +1,34 @@
+FROM pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
+
+RUN pip install --upgrade pip && \
+    apt update -y && \
+    apt install -y --no-install-recommends \
+    build-essential \
+    g++ \
+    libsndfile1 \
+    libportaudio2 \
+    curl \
+    ffmpeg \
+    portaudio19-dev \
+    && apt clean && \
+    rm -rf /var/lib/apt/lists/*
+
+ENV WS_HOST="localhost"
+ENV WHISPER_MODEL="tiny"
+ENV DEVICE="cuda"
+
+WORKDIR /app
+
+ENV PYTHONPATH="${PYTHONPATH}:/app"
+RUN export PYTHONPATH="${PYTHONPATH}:/app"
+
+COPY requirements-gpu.txt /app/requirements-gpu.txt
+RUN pip3 install -r /app/requirements-gpu.txt
+
+COPY RealtimeSTT /app/RealtimeSTT
+COPY RealtimeSTT_server /app/RealtimeSTT_server
+
+EXPOSE 8011
+EXPOSE 8012
+
+CMD python3 RealtimeSTT_server/stt_server.py -m ${WHISPER_MODEL} -r ${WHISPER_MODEL} -l ru --device ${DEVICE}
