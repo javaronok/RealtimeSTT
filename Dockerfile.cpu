@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:2.7.1-cuda12.8-cudnn9-runtime
+FROM python:3.10-bookworm
 
 RUN pip install --upgrade pip && \
     apt update -y && \
@@ -21,6 +21,8 @@ WORKDIR /app
 
 ENV PYTHONPATH="${PYTHONPATH}:/app"
 RUN export PYTHONPATH="${PYTHONPATH}:/app"
+
+RUN pip install torch==2.3.1 torchaudio==2.3.1 --index-url https://download.pytorch.org/whl/cpu
 
 COPY requirements.txt /app/requirements.txt
 RUN pip3 install -r /app/requirements.txt
