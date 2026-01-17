@@ -1,1 +1,1 @@
-VERSION="0.1-gpu"
+VERSION="0.2-gpu"
